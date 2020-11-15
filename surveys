@@ -1,0 +1,22 @@
+//console.log(url)
+//console.log(performance.now())
+// axios
+// .get(prefix + 'survey' + tokens, {
+// })
+// .then((response) => {
+
+//   var arraySurveys = response.data.data.map(item => {
+//     //console.log(item.id, item.title)
+//     return {
+//       id: item.id,
+//       title: item.title
+//     }
+//   })
+//   //console.log(arraySurveys)
+//   var foundsurvey = arraySurveys.find(element => element.id == surveynum);
+//   console.log('using this survey')
+//   console.log(foundsurvey)
+// })
+// .catch((error) => {
+//   console.log(error)
+// })
