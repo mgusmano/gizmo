@@ -34,6 +34,7 @@ var columns =[
   {id: 315, name :'comfortable'},
 
 //health survey
+//questions
   {id:   7, name :'currentlysick'},
   {id:   8, name :'hadcontact'},
   {id:  10, name :'symptoms'},
@@ -41,6 +42,7 @@ var columns =[
   {id: 328, name :'covidcontactnh'},
   {id: 330, name :'nonessentialtravelnh'},
   {id: 318, name :'preventmask'},
+
   {id: 259, name :'authcode'},
 
 //post visit survey
@@ -77,7 +79,13 @@ var total_count
 var num
 var totalauthorized = 0
 
-
+var totalcurrentlysick = 0
+var totalhadcontact = 0
+var totalsymptoms = 0
+var totalsymptomsnh = 0
+var totalcovidcontactnh = 0
+var totalnonessentialtravelnh = 0
+var totalpreventmask = 0
 
 var workedwith0 = 0
 var workedwith1to3 = 0
@@ -129,78 +137,74 @@ async function Go() {
       allArray.push(...responsesArray);
       page = page + 1
     }
-    var file = './responses/responses' + num + '.json'
     console.log('allArray',allArray.length)
-
-
     console.log('total_count',total_count)
     console.log('num_responses',num_responses)
-
-
 
     var oResult = {
       dategenerated: new Date().toISOString(),
 
-      socialdistancing: allArray.filter(response => response['socialdistancing'] == true).length,
-      facecoverings: allArray.filter(response => response['facecoverings'] == true).length,
-      tracingplan: allArray.filter(response => response['tracingplan'] == true).length,
-      healthsafetyplan: allArray.filter(response => response['healthsafetyplan'] == true).length,
-      employeehealth: allArray.filter(response => response['employeehealth'] == true).length,
-      visitorhealth: allArray.filter(response => response['visitorhealth'] == true).length,
-      other: allArray.filter(response => response['other'] == true).length,
+      totalsocialdistancing: allArray.filter(response => response['socialdistancing'] == true).length,
+      totalfacecoverings: allArray.filter(response => response['facecoverings'] == true).length,
+      totaltracingplan: allArray.filter(response => response['tracingplan'] == true).length,
+      totalhealthsafetyplan: allArray.filter(response => response['healthsafetyplan'] == true).length,
+      totalemployeehealth: allArray.filter(response => response['employeehealth'] == true).length,
+      totalvisitorhealth: allArray.filter(response => response['visitorhealth'] == true).length,
+      totalother: allArray.filter(response => response['other'] == true).length,
 
-      socialdistancingpercent: (((allArray.filter(response => response['socialdistancing'] == true).length)/num_responses)*100).toFixed(0),
-      facecoveringspercent: (((allArray.filter(response => response['facecoverings'] == true).length)/num_responses)*100).toFixed(0),
-      tracingplanpercent: (((allArray.filter(response => response['tracingplan'] == true).length)/num_responses)*100).toFixed(0),
-      healthsafetyplanpercent: (((allArray.filter(response => response['healthsafetyplan'] == true).length)/num_responses)*100).toFixed(0),
-      employeehealthpercent: (((allArray.filter(response => response['employeehealth'] == true).length)/num_responses)*100).toFixed(0),
-      visitorhealthpercent: (((allArray.filter(response => response['visitorhealth'] == true).length)/num_responses)*100).toFixed(0),
-      otherpercent: (((allArray.filter(response => response['other'] == true).length)/num_responses)*100).toFixed(0),
+      percentsocialdistancing: (((allArray.filter(response => response['socialdistancing'] == true).length)/num_responses)*100).toFixed(0),
+      percentfacecoverings: (((allArray.filter(response => response['facecoverings'] == true).length)/num_responses)*100).toFixed(0),
+      percenttracingplan: (((allArray.filter(response => response['tracingplan'] == true).length)/num_responses)*100).toFixed(0),
+      percenthealthsafetyplan: (((allArray.filter(response => response['healthsafetyplan'] == true).length)/num_responses)*100).toFixed(0),
+      percentemployeehealth: (((allArray.filter(response => response['employeehealth'] == true).length)/num_responses)*100).toFixed(0),
+      percentvisitorhealth: (((allArray.filter(response => response['visitorhealth'] == true).length)/num_responses)*100).toFixed(0),
+      percentother: (((allArray.filter(response => response['other'] == true).length)/num_responses)*100).toFixed(0),
 
-
+      totalcomfortable: allArray.filter(response => response['comfortable'] === "Yes, I am comfortable completing the visit").length,
+      totalnotcomfortable: allArray.filter(response => response['comfortable'] !== "Yes, I am comfortable completing the visit").length,
 
       totalassignments: total_count,
       totalauthorized: totalauthorized,
       totalnotauthorized: total_count - totalauthorized,
       percentauthorized: ((totalauthorized / total_count)*100).toFixed(0),
 
-      workedwith0: workedwith0,
-      workedwith1to3: workedwith1to3,
-      workedwith4to10: workedwith4to10,
-      workedwith11to25: workedwith11to25,
-      workedwithmorethan25: workedwithmorethan25,
+      totalcurrentlysick:totalcurrentlysick,
+      totalhadcontact:totalhadcontact,
+      totalsymptoms:totalsymptoms,
+      totalsymptomsnh:totalsymptomsnh,
+      totalcovidcontactnh:totalcovidcontactnh,
+      totalnonessentialtravelnh:totalnonessentialtravelnh,
+      totalpreventmask:totalpreventmask,
 
-      data: allArray
+      totalworkedwith0: workedwith0,
+      totalworkedwith1to3: workedwith1to3,
+      totalworkedwith4to10: workedwith4to10,
+      totalworkedwith11to25: workedwith11to25,
+      totalworkedwithmorethan25: workedwithmorethan25,
     }
 
-    var dataString = JSON.stringify(oResult, null, 2);
+    var filesummary = './responses/covidsummary.json'
+    var dataStringSummary = JSON.stringify(oResult, null, 2);
+    fs.writeFileSync(filesummary, dataStringSummary);
 
+    oResult.data = allArray
+    var filedetail = './responses/coviddetail.json'
+    var dataStringDetail = JSON.stringify(oResult, null, 2);
+    fs.writeFileSync(filedetail, dataStringDetail);
 
-    fs.writeFileSync(file, dataString);
+    var duplicateIds = allArray
+        .map(e => e['id'])
+        .map((e, i, final) => final.indexOf(e) !== i && i)
+        .filter(obj=> allArray[obj])
+        .map(e => allArray[e]["id"])
 
-
-
-var duplicateIds = allArray
-    .map(e => e['id'])
-    .map((e, i, final) => final.indexOf(e) !== i && i)
-    .filter(obj=> allArray[obj])
-    .map(e => allArray[e]["id"])
-
-console.log('duplicateIds',duplicateIds)
-
-console.log('done',page,performance.now())
-
-console.log('done-minutes',page,performance.now()/60000)
-
-
-
-
+    console.log('duplicateIds',duplicateIds)
+    console.log('done',page,performance.now())
+    console.log('done-minutes',page,performance.now()/60000)
 
   } catch(error) {
     console.log("error", error);
   }
-
-
 }
 
 function getIt() {
@@ -233,6 +237,43 @@ async function processIt(responses) {
           if (data[key].id === 277) { //sessionid
             data[key].type = "TEXTBOX"
           }
+
+          if (data[key].id === 7) { //currentlysick
+            if (data[key].answer == 'Yes') {
+              totalcurrentlysick++
+            }
+          }
+          if (data[key].id === 8) { //hadcontact
+            if (data[key].answer == 'Yes') {
+              totalhadcontact++
+            }
+          }
+          if (data[key].id === 10) { //symptoms
+            if (data[key].answer == 'Yes') {
+              totalsymptoms++
+            }
+          }
+          if (data[key].id === 327) { //symptomsnh
+            if (data[key].answer == 'Yes') {
+              totalsymptomsnh++
+            }
+          }
+          if (data[key].id === 328) { //symptoms
+            if (data[key].answer == 'Yes') {
+              totalcovidcontactnh++
+            }
+          }
+          if (data[key].id === 330) { //nonessentialtravelnh
+            if (data[key].answer == 'Yes') {
+              totalnonessentialtravelnh++
+            }
+          }
+          if (data[key].id === 318) { //preventmask
+            if (data[key].answer == 'Yes') {
+              totalpreventmask++
+            }
+          }
+
           if (data[key].id === 319) { //numpeople
             var x = data[key].answer
             switch(true){
