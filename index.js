@@ -3,10 +3,10 @@ const fs = require("fs-extra");
 const {performance} = require('perf_hooks');
 
 var columns =[
-  {id:   1, name :'id'},
-  {id:   2, name :'datestarted'},
-  {id:   3, name :'datesubmitted'},
-  {id:   4, name :'status'},
+  {id: 901, name :'id'},
+  {id: 902, name :'datestarted'},
+  {id: 903, name :'datesubmitted'},
+  {id: 904, name :'status'},
 
 //demographics
   {id: 277, name :'sessionid'},
@@ -160,8 +160,8 @@ async function Go() {
       percentvisitorhealth: (((allArray.filter(response => response['visitorhealth'] == true).length)/num_responses)*100).toFixed(0),
       percentother: (((allArray.filter(response => response['other'] == true).length)/num_responses)*100).toFixed(0),
 
-      totalcomfortable: allArray.filter(response => response['comfortable'] === "Yes, I am comfortable completing the visit").length,
-      totalnotcomfortable: allArray.filter(response => response['comfortable'] !== "Yes, I am comfortable completing the visit").length,
+      totalcomfortable: allArray.filter(response => response['comfortable'] === "Yes").length,
+      totalnotcomfortable: allArray.filter(response => response['comfortable'] === "No").length,
 
       totalassignments: total_count,
       totalauthorized: totalauthorized,
@@ -219,7 +219,7 @@ async function processIt(responses) {
   var responsesArray = []
   responses.forEach(response => {
     var o = getIt()
-    o.id = response.id
+    o.id = parseInt(response.id)
     o.datestarted = response.date_started
     o.datesubmitted = response.date_submitted
     o.status = response.status
@@ -231,13 +231,13 @@ async function processIt(responses) {
           if (data[key].id === 259) { //authcode
             if (data[key].answer != undefined) {
               totalauthorized++
+              data[key].answer = parseInt(data[key].answer)
             }
             data[key].type = "TEXTBOX"
           }
           if (data[key].id === 277) { //sessionid
             data[key].type = "TEXTBOX"
           }
-
           if (data[key].id === 7) { //currentlysick
             if (data[key].answer == 'Yes') {
               totalcurrentlysick++
@@ -252,6 +252,15 @@ async function processIt(responses) {
             if (data[key].answer == 'Yes') {
               totalsymptoms++
             }
+          }
+          if (data[key].id === 315) { //comfortable
+            if (data[key].answer == 'Yes, I am comfortable completing the visit') {
+              data[key].answer = 'Yes'
+            }
+            if (data[key].answer == 'No, I am not comfortable completing the visit') {
+              data[key].answer = 'No'
+            }
+            data[key].type = "TEXTBOX"
           }
           if (data[key].id === 327) { //symptomsnh
             if (data[key].answer == 'Yes') {
@@ -279,21 +288,24 @@ async function processIt(responses) {
             switch(true){
               case (x < 1):
                 workedwith0++
+                data[key].answer = parseInt(data[key].answer)
                 break
               case (x < 4):
                 workedwith1to3++
+                data[key].answer = parseInt(data[key].answer)
                 break
               case (x < 11):
                 workedwith4to10++
+                data[key].answer = parseInt(data[key].answer)
                 break
               case (x < 26):
                 workedwith11to25++
+                data[key].answer = parseInt(data[key].answer)
                 break
               default:
                 workedwithmorethan25++
                 break
             }
-
 
           }
           if (data[key].type != 'HIDDEN') { // || (data[key].type == 'HIDDEN' && data[key].id === 259)) {
