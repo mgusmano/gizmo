@@ -1,5 +1,26 @@
 (function(exports){
 
+  exports.AddressNonComplianceCalculations = function(allArray) {
+    var num_responses = allArray.length
+    var precision = 2
+
+    var totaladdressnoncompliance = allArray.filter(response => response['addressnoncompliance'] === "Yes").length
+    var totalnotaddressnoncompliance = allArray.filter(response => response['addressnoncompliance'] === "No").length
+
+    var percentaddressnoncompliance = ((totaladdressnoncompliance/num_responses)*100).toFixed(precision)
+    var percentnotaddressnoncompliance = ((totalnotaddressnoncompliance/num_responses)*100).toFixed(precision)
+
+    var o = {
+      totaladdressnoncompliance,
+      totalnotaddressnoncompliance,
+      percentaddressnoncompliance,
+      percentnotaddressnoncompliance,
+    }
+    return o
+    }
+
+
+
   exports.CountriesCalculations = function(allArray) {
     var countriesArray = []
     var i = 1;
@@ -83,7 +104,10 @@
     allArray.forEach(o => {
       var x = o['numworkwith']
       switch(true){
-        case (x === ''):
+        case (x === null):
+          if (o['aloneorpeople'] == 'I worked alone') {
+            oResult['totalworkwith0']++
+          }
           break
         case (x === 0):
           oResult['totalworkwith0']++

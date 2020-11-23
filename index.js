@@ -70,7 +70,7 @@ var measures = [
   {id:10415,name:'healthsafetyplan',description:'Health & Safety Plan for COVID-19 (i.e., Basic steps to identify COVID-19 risks, including infection control, social distancing requirements, face coverings, and facility controls.)'},
   {id:10416,name:'employeehealth',description:'Employee Health Assessment (i.e., Preventative screening of SARS CoV-2 symptoms - e.g., questionnaire, temperature screening.)'},
   {id:10417,name:'visitorhealth',description:'Visitor Health Assessment (i.e., Preventative screening of SARS CoV-2 symptoms - e.g., questionnaire, temperature screening).'},
-//Venders are curr
+  {id:10638,name:'vendorprohibit',description:'Vendors are currently prohibited (this prevents me from completing the visit)'},
   {id:10418,name:'othermeasures',description:'Other'},
 ]
 
@@ -83,9 +83,6 @@ var resultsperpage = 100
 var numCompleteArray = []
 var total_pages
 var total_count
-
-// var countryofvisitArray=[]
-// var jobroleArray=[]
 
 var numNotComplete = 0
 var numComplete = 0
@@ -137,7 +134,7 @@ async function Go() {
     var oWorkAssignments = calcmodule.WorkAssignmentsCalculations(numCompleteArray)
     var oWorkWithCounts = calcmodule.WorkWithCountsCalculations(numCompleteArray)
     var oCompliance = calcmodule.ComplianceCalculations(numCompleteArray)
-
+    var oAddressNonCompliance = calcmodule.AddressNonComplianceCalculations(numCompleteArray)
     var oCountries = calcmodule.CountriesCalculations(numCompleteArray)
     var oJobRoles = calcmodule.JobRolesCalculations(numCompleteArray)
 
@@ -151,6 +148,7 @@ async function Go() {
       workassignments: oWorkAssignments,
       workwithcounts: oWorkWithCounts,
       compliance: oCompliance,
+      addressnoncompliance: oAddressNonCompliance,
       countries: oCountries,
       jobroles: oJobRoles,
     }
@@ -163,8 +161,6 @@ async function Go() {
       numnotcomplete: numNotComplete,
       numcomplete: numComplete,
       numcompletenull: numCompleteNull,
-      //countryofvisitArray: countryofvisitArray,
-      //jobroleArray:jobroleArray,
     }
 
     var oResult = {...oBasic, ...oCalculations}
@@ -349,7 +345,7 @@ async function processIt(responses) {
 
 
 
-        if (data[key].type != 'HIDDEN') { // || (data[key].type == 'HIDDEN' && data[key].id === 259)) {
+        if (data[key].type != 'HIDDEN') {
           switch (data[key].type) {
             case 'TEXTBOX':
             case 'RADIO':
@@ -409,9 +405,6 @@ async function processIt(responses) {
                     o[correctnoncompliance.name] = true
                   }
                 })
-
-
-
               }
 
               break
@@ -423,40 +416,13 @@ async function processIt(responses) {
     });
     //done processing all keys in the data
 
-    // if (daysArray[o['dateofvisit']] == undefined) {
-    //   daysArray[o['dateofvisit']] = 1
-    // }
-    // else {
-    //   daysArray[o['dateofvisit']] = daysArray[o['dateofvisit']] + 1
-    // }
-
     o['authorized'] = doAuthorized(o)
-    // if (o['currentlysick'] == 'Yes' ||
-    //     o['hadcontact'] == 'Yes' ||
-    //     o['symptoms'] == 'Yes' ||
-    //     o['symptomsnh'] == 'Yes' ||
-    //     o['covidcontactnh'] == 'Yes' ||
-    //     o['nonessentialtravelnh'] == 'Yes' ||
-    //     o['preventmask'] == 'Yes'
-    // ) {
-    //   o['authorized'] = 'No'
-    // }
-    // else {
-    //   if (o['authcode'] != null) {
-    //     totalauthorized++
-    //     o['authorized'] = 'Yes'
-    //   }
-    //   else {
-    //     o['authorized'] = null
-    //   }
-    // }
 
     //1 item
     responsesArray.push(o)
   })
   return responsesArray
 }
-
 
 function doAuthorized(o) {
   if (o['currentlysick'] == 'Yes' ||
