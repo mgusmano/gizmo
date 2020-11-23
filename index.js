@@ -1,7 +1,7 @@
 const axios = require('axios').default;
-const { SSL_OP_MSIE_SSLV2_RSA_PADDING } = require('constants');
 const fs = require("fs-extra");
 const {performance} = require('perf_hooks');
+const calcmodule = require('./calculations')
 
 var columns = [
   {id: 901, name :'id'},
@@ -47,8 +47,8 @@ var columns = [
 
 //post visit survey
   {id: 243, name :'aloneorpeople'},
-  {id: 319, name :'numpeople'},
-  {id: 320, name :'contactsworkedwith'},
+  {id: 319, name :'numworkwith'},
+  {id: 320, name :'contactsworkwith'},
   {id: 244, name :'safetymet'},
   {id: 321, name :'addressnoncompliance'},
   {id: 322, name :'corrections'},
@@ -80,29 +80,12 @@ var surveynum = '5758759'
 var page = 1
 var resultsperpage = 100
 
-var num_responses = 0
-var allArray = []
+var numCompleteArray = []
 var total_pages
 var total_count
 
-var totalcurrentlysick = 0
-var totalhadcontact = 0
-var totalsymptoms = 0
-var totalsymptomsnh = 0
-var totalcovidcontactnh = 0
-var totalnonessentialtravelnh = 0
-var totalpreventmask = 0
-
-var workedwith0 = 0
-var workedwith1to3 = 0
-var workedwith4to10 = 0
-var workedwith11to25 = 0
-var workedwithmorethan25 = 0
-
-var countryofvisitArray=[]
-var jobroleArray=[]
-
-var daysArray = {}
+// var countryofvisitArray=[]
+// var jobroleArray=[]
 
 var numNotComplete = 0
 var numComplete = 0
@@ -114,7 +97,6 @@ async function Go() {
   try {
 
     var url
-    //var num
     var urlstart = prefix + 'survey/' + surveynum + '/surveyresponse' + tokens + '&page' + page + '&resultsperpage=' + resultsperpage
     const result = await axios.get(urlstart);
     const httpResult = await result;
@@ -135,242 +117,72 @@ async function Go() {
     while (page <= total_pages) {
       console.log('page',page,performance.now())
       url = prefix + 'survey/' + surveynum + '/surveyresponse' + tokens + '&page=' + page + '&resultsperpage=' + resultsperpage
-      //num = page * resultsperpage
       const result = await axios.get(url);
       const httpResult = await result;
       const rootData = httpResult.data
       const surveyData = rootData.data;
       var responsesArray = await processIt(surveyData)
-      console.log('after processIt')
-      allArray.push(...responsesArray);
+      numCompleteArray.push(...responsesArray);
       page = page + 1
     }
 
+    numCompleteArray = numCompleteArray.filter(response => response['status'] === "Complete")
 
-    console.log('allArray.length',allArray.length)
-    //console.log('total_count',total_count)
-    //console.log('num_responses',num_responses)
+    var oMeasures = calcmodule.MeasuresCalculations(numCompleteArray)
+    var oComfortLevel = calcmodule.ComfortLevelCalculations(numCompleteArray)
+    var oAuthorizations = calcmodule.AuthorizationsCalculations(numCompleteArray)
+    var oHealthQuestions = calcmodule.HealthQuestionsCalculations(numCompleteArray)
+    var oHealthQuestionsNH = calcmodule.HealthQuestionsNHCalculations(numCompleteArray)
+    var oCorrections = calcmodule.CorrectionsCalculations(numCompleteArray)
+    var oWorkAssignments = calcmodule.WorkAssignmentsCalculations(numCompleteArray)
+    var oWorkWithCounts = calcmodule.WorkWithCountsCalculations(numCompleteArray)
+    var oCompliance = calcmodule.ComplianceCalculations(numCompleteArray)
 
-function MeasuresCalculations(allArray) {
-  var num_responses = allArray.length
-  var precision = 0
+    var oCountries = calcmodule.CountriesCalculations(numCompleteArray)
+    var oJobRoles = calcmodule.JobRolesCalculations(numCompleteArray)
 
-  totalsocialdistancing= allArray.filter(response => response['socialdistancing'] == true).length
-  totalfacecoverings= allArray.filter(response => response['facecoverings'] == true).length
-  totaltracingplan= allArray.filter(response => response['tracingplan'] == true).length
-  totalhealthsafetyplan= allArray.filter(response => response['healthsafetyplan'] == true).length
-  totalemployeehealth= allArray.filter(response => response['employeehealth'] == true).length
-  totalvisitorhealth= allArray.filter(response => response['visitorhealth'] == true).length
-  totalothermeasures= allArray.filter(response => response['othermeasures'] == true).length
-
-  percentsocialdistancing= ((totalsocialdistancing/num_responses)*100).toFixed(precision)
-  percentfacecoverings= ((totalfacecoverings/num_responses)*100).toFixed(precision)
-  percenttracingplan= ((totaltracingplan/num_responses)*100).toFixed(precision)
-  percenthealthsafetyplan= ((totalhealthsafetyplan/num_responses)*100).toFixed(precision)
-  percentemployeehealth= ((totalemployeehealth/num_responses)*100).toFixed(precision)
-  percentvisitorhealth= ((totalvisitorhealth/num_responses)*100).toFixed(precision)
-  percentothermeasures= ((totalothermeasures/num_responses)*100).toFixed(precision)
-
-  var o = {
-    totalsocialdistancing,
-    totalfacecoverings,
-    totaltracingplan,
-    totalhealthsafetyplan,
-    totalemployeehealth,
-    totalvisitorhealth,
-    totalothermeasures,
-    percentsocialdistancing,
-    percentfacecoverings,
-    percenttracingplan,
-    percenthealthsafetyplan,
-    percentemployeehealth,
-    percentvisitorhealth,
-    percentothermeasures,
-  }
-  return o
-}
-
-function CorrectionsCalculations(allArray) {
-  var num_responses = allArray.length
-  var precision = 0
-
-  totalmorephysicaldistance= allArray.filter(response => response['morephysicaldistance'] == true).length
-  totalaskforchange= allArray.filter(response => response['askforchange'] == true).length
-  totaladdedppe= allArray.filter(response => response['addedppe'] == true).length
-  totaldidnotgointoarea= allArray.filter(response => response['didnotgointoarea'] == true).length
-  totalrescheduledvisit= allArray.filter(response => response['rescheduledvisit'] == true).length
-  totalothercorrections= allArray.filter(response => response['othercorrections'] == true).length
-
-  percentmorephysicaldistance= ((totalmorephysicaldistance/num_responses)*100).toFixed(precision)
-  percentaskforchange= ((totalaskforchange/num_responses)*100).toFixed(precision)
-  percentaddedppe= ((totaladdedppe/num_responses)*100).toFixed(precision)
-  percentdidnotgointoarea= ((totaldidnotgointoarea/num_responses)*100).toFixed(precision)
-  percentrescheduledvisit= ((totaldidnotgointoarea/num_responses)*100).toFixed(precision)
-  percentothercorrections= ((totalothercorrections/num_responses)*100).toFixed(precision)
-
-  var o = {
-
-totalmorephysicaldistance,
-totalaskforchange,
-totaladdedppe,
-totaldidnotgointoarea,
-totalrescheduledvisit,
-totalothercorrections,
-percentmorephysicaldistance,
-percentaskforchange,
-percentaddedppe,
-percentdidnotgointoarea,
-percentrescheduledvisit,
-percentothercorrections,
-  }
-  return o
-}
-
-function ComfortLevelCalculations(allArray) {
-  var num_responses = allArray.length
-  var precision = 0
-
-  totalcomfortable= allArray.filter(response => response['comfortable'] === "Yes").length
-
-  totalcomfortable= allArray.filter(response => response['comfortable'] === "Yes").length
-  totalnotcomfortable= allArray.filter(response => response['comfortable'] === "No").length
-
-  percentcomfortable= ((totalcomfortable/num_responses)*100).toFixed(precision)
-  percentnotcomfortable= ((totalnotcomfortable/num_responses)*100).toFixed(precision)
-
-  var o = {
-    totalcomfortable,
-    totalnotcomfortable,
-    percentcomfortable,
-    percentnotcomfortable,
-  }
-  return o
-}
-
-function AuthorizationCalculations(allArray) {
-  var num_responses = allArray.length
-  var precision = 2
-
-  totalassignments= allArray.filter(response => response['authorized'] !== null).length
-  totalauthorized= allArray.filter(response => response['authorized'] === "Yes").length
-  totalnotauthorized= allArray.filter(response => response['authorized'] === "No").length
-
-  percentauthorized= ((totalauthorized / totalassignments)*100).toFixed(precision)
-  percentnotauthorized= ((totalnotauthorized / totalassignments)*100).toFixed(precision)
-
-  var o = {
-    totalassignments,
-    totalauthorized,
-    totalnotauthorized,
-    percentauthorized,
-    percentnotauthorized,
-  }
-  return o
-}
-
-function HealthQuestionCalculations(allArray) {
-  //var num_responses = allArray.length
-  //var precision = 0
-
-  totalcurrentlysick= allArray.filter(response => response['currentlysick'] === "Yes").length
-  totalhadcontact= allArray.filter(response => response['hadcontact'] === "Yes").length
-  totalsymptoms= allArray.filter(response => response['symptoms'] === "Yes").length
-  totalsymptomsnh= allArray.filter(response => response['symptomsnh'] === "Yes").length
-  totalcovidcontactnh= allArray.filter(response => response['covidcontactnh'] === "Yes").length
-  totalnonessentialtravelnh= allArray.filter(response => response['nonessentialtravelnh'] === "Yes").length
-  totalpreventmask= allArray.filter(response => response['preventmask'] === "Yes").length
-
-  var o = {
-    totalcurrentlysick,
-    totalhadcontact,
-    totalsymptoms,
-    totalsymptomsnh,
-    totalcovidcontactnh,
-    totalnonessentialtravelnh,
-    totalpreventmask,
-  }
-  return o
-}
-
-
-    var allCompleteArray= allArray.filter(response => response['status'] === "Complete")
-    var oMeasures = MeasuresCalculations(allCompleteArray)
-    var oComfortLevel = ComfortLevelCalculations(allCompleteArray)
-    var oAuthorization = AuthorizationCalculations(allCompleteArray)
-    var oHealthQuestion = HealthQuestionCalculations(allCompleteArray)
-    var oCorrections = CorrectionsCalculations(allCompleteArray)
+    var oCalculations = {
+      measures: oMeasures,
+      comfortlevel: oComfortLevel,
+      authorizations: oAuthorizations,
+      healthquestions: oHealthQuestions,
+      healthquestionsNH: oHealthQuestionsNH,
+      corrections: oCorrections,
+      workassignments: oWorkAssignments,
+      workwithcounts: oWorkWithCounts,
+      compliance: oCompliance,
+      countries: oCountries,
+      jobroles: oJobRoles,
+    }
 
     var oBasic = {
       dategenerated: new Date().toISOString(),
+      workassignmentsstart: oWorkAssignments[0].label,
+      workassignmentsend: oWorkAssignments[oWorkAssignments.length-1].label,
       totalcount: total_count,
       numnotcomplete: numNotComplete,
       numcomplete: numComplete,
       numcompletenull: numCompleteNull,
-
-      // //PreVisitCalculations
-      // totalsocialdistancing: allArray.filter(response => response['socialdistancing'] == true).length,
-      // totalfacecoverings: allArray.filter(response => response['facecoverings'] == true).length,
-      // totaltracingplan: allArray.filter(response => response['tracingplan'] == true).length,
-      // totalhealthsafetyplan: allArray.filter(response => response['healthsafetyplan'] == true).length,
-      // totalemployeehealth: allArray.filter(response => response['employeehealth'] == true).length,
-      // totalvisitorhealth: allArray.filter(response => response['visitorhealth'] == true).length,
-      // totalother: allArray.filter(response => response['other'] == true).length,
-
-      // percentsocialdistancing: (((allArray.filter(response => response['socialdistancing'] == true).length)/num_responses)*100).toFixed(0),
-      // percentfacecoverings: (((allArray.filter(response => response['facecoverings'] == true).length)/num_responses)*100).toFixed(0),
-      // percenttracingplan: (((allArray.filter(response => response['tracingplan'] == true).length)/num_responses)*100).toFixed(0),
-      // percenthealthsafetyplan: (((allArray.filter(response => response['healthsafetyplan'] == true).length)/num_responses)*100).toFixed(0),
-      // percentemployeehealth: (((allArray.filter(response => response['employeehealth'] == true).length)/num_responses)*100).toFixed(0),
-      // percentvisitorhealth: (((allArray.filter(response => response['visitorhealth'] == true).length)/num_responses)*100).toFixed(0),
-      // percentother: (((allArray.filter(response => response['other'] == true).length)/num_responses)*100).toFixed(0),
-
-      // totalcomfortable: allArray.filter(response => response['comfortable'] === "Yes").length,
-      // totalnotcomfortable: allArray.filter(response => response['comfortable'] === "No").length,
-
-      // totalassignments: allArray.filter(response => response['authorized'] !== null).length,
-      // totalauthorized: allArray.filter(response => response['authorized'] === "Yes").length,
-      // totalnotauthorized: allArray.filter(response => response['authorized'] === "No").length,
-      // percentauthorized: (( allArray.filter(response => response['authorized'] === "Yes").length / allArray.filter(response => response['authorized'] !== null).length)*100).toFixed(2),
-      // percentnotauthorized: (( allArray.filter(response => response['authorized'] === "No").length / allArray.filter(response => response['authorized'] !== null).length)*100).toFixed(2),
-
-
-
-      totalworkedwith0: workedwith0,
-      totalworkedwith1to3: workedwith1to3,
-      totalworkedwith4to10: workedwith4to10,
-      totalworkedwith11to25: workedwith11to25,
-      totalworkedwithmorethan25: workedwithmorethan25,
-
-      countryofvisitArray: countryofvisitArray,
-      jobroleArray:jobroleArray,
-      days: daysArray,
-
-      // totalcurrentlysick:totalcurrentlysick,
-      // totalhadcontact:totalhadcontact,
-      // totalsymptoms:totalsymptoms,
-      // totalsymptomsnh:totalsymptomsnh,
-      // totalcovidcontactnh:totalcovidcontactnh,
-      // totalnonessentialtravelnh:totalnonessentialtravelnh,
-      // totalpreventmask:totalpreventmask,
+      //countryofvisitArray: countryofvisitArray,
+      //jobroleArray:jobroleArray,
     }
 
-    var oResult = { ...oBasic, ...oHealthQuestion, ...oMeasures, ...oComfortLevel, ...oAuthorization, ...oCorrections}
-
+    var oResult = {...oBasic, ...oCalculations}
 
     var filesummary = './responses/covidsummary.json'
     var dataStringSummary = JSON.stringify(oResult, null, 2);
     fs.writeFileSync(filesummary, dataStringSummary);
 
-    oResult.data = allArray
+    oResult.data = numCompleteArray
     var filedetail = './responses/coviddetail.json'
     var dataStringDetail = JSON.stringify(oResult, null, 2);
     fs.writeFileSync(filedetail, dataStringDetail);
 
-    var duplicateIds = allArray
+    var duplicateIds = numCompleteArray
         .map(e => e['id'])
         .map((e, i, final) => final.indexOf(e) !== i && i)
-        .filter(obj=> allArray[obj])
-        .map(e => allArray[e]["id"])
+        .filter(obj=> numCompleteArray[obj])
+        .map(e => numCompleteArray[e]["id"])
 
     console.log('duplicateIds',duplicateIds)
     console.log('done',page,performance.now())
@@ -406,30 +218,13 @@ async function processIt(responses) {
     o.datestarted = response.date_started
     o.datesubmitted = response.date_submitted
     o.status = response.status
-    num_responses++
 
     var data = response.survey_data
     Object.keys(data).forEach(key => {
       if (data[key].shown != false) {
 
-
-        if (data[key].id === 285) { //countryofvisit
-          if (data[key].answer != null) {
-            if (!countryofvisitArray.includes(data[key].answer)) {
-              countryofvisitArray.push(data[key].answer)
-            }
-          }
-        }
-        if (data[key].id === 287) { //jobrole
-          if (data[key].answer != null) {
-            if (!jobroleArray.includes(data[key].answer)) {
-              jobroleArray.push(data[key].answer)
-            }
-          }
-        }
         if (data[key].id === 259) { //authcode
           if (data[key].answer != undefined) {
-//            totalauthorized++
             data[key].answer = parseInt(data[key].answer)
           }
           else {
@@ -437,9 +232,39 @@ async function processIt(responses) {
           }
           data[key].type = "TEXTBOX"
         }
+
         if (data[key].id === 277) { //sessionid
           data[key].type = "TEXTBOX"
         }
+
+        if (data[key].id === 315) { //comfortable
+          if (data[key].answer == 'Yes, I am comfortable completing the visit') {
+            data[key].answer = 'Yes'
+          }
+          if (data[key].answer == 'No, I am not comfortable completing the visit') {
+            data[key].answer = 'No'
+          }
+          data[key].type = "TEXTBOX"
+        }
+
+        if (data[key].id === 319) { //numworkwith
+          data[key].answer = parseInt(data[key].answer)
+        }
+
+        // if (data[key].id === 285) { //countryofvisit
+        //   if (data[key].answer != null) {
+        //     if (!countryofvisitArray.includes(data[key].answer)) {
+        //       countryofvisitArray.push(data[key].answer)
+        //     }
+        //   }
+        // }
+        // if (data[key].id === 287) { //jobrole
+        //   if (data[key].answer != null) {
+        //     if (!jobroleArray.includes(data[key].answer)) {
+        //       jobroleArray.push(data[key].answer)
+        //     }
+        //   }
+        // }
 
         // if (data[key].id === 7) { //currentlysick
         //   if (data[key].answer == 'Yes') {
@@ -457,15 +282,7 @@ async function processIt(responses) {
         //   }
         // }
 
-        if (data[key].id === 315) { //comfortable
-          if (data[key].answer == 'Yes, I am comfortable completing the visit') {
-            data[key].answer = 'Yes'
-          }
-          if (data[key].answer == 'No, I am not comfortable completing the visit') {
-            data[key].answer = 'No'
-          }
-          data[key].type = "TEXTBOX"
-        }
+
         // if (data[key].id === 327) { //symptomsnh
         //   if (data[key].answer == 'Yes') {
         //     totalsymptomsnh++
@@ -488,45 +305,50 @@ async function processIt(responses) {
         // }
 
 
+
         //if aloneorpeople == "I worked alone" then numpeople = 0
 
-        if (data[key].id === 319) { //numpeople
-          var x = data[key].answer
-          switch(true){
+//         if (data[key].id === 319) { //numpeople
+//           var x = data[key].answer
+//           switch(true){
 
- //mjg
-            case (x == ''):
+//  //mjg
+//             case (x == ''):
 
-              data[key].answer = parseInt(data[key].answer)
-              break
+//               data[key].answer = parseInt(data[key].answer)
+//               break
 
-              case (x == 0):
-                workedwith0++
-                data[key].answer = parseInt(data[key].answer)
-                break
+//               case (x == 0):
+//                 workedwith0++
+//                 data[key].answer = parseInt(data[key].answer)
+//                 break
 
-            // case (x == 1):
-            //   workedwith0++
-            //   data[key].answer = parseInt(data[key].answer)
-            //   break
-            case (x < 4):
-              workedwith1to3++
-              data[key].answer = parseInt(data[key].answer)
-              break
-            case (x < 11):
-              workedwith4to10++
-              data[key].answer = parseInt(data[key].answer)
-              break
-            case (x < 26):
-              workedwith11to25++
-              data[key].answer = parseInt(data[key].answer)
-              break
-            default:
-              workedwithmorethan25++
-              break
-          }
+//             // case (x == 1):
+//             //   workedwith0++
+//             //   data[key].answer = parseInt(data[key].answer)
+//             //   break
+//             case (x < 4):
+//               workedwith1to3++
+//               data[key].answer = parseInt(data[key].answer)
+//               break
+//             case (x < 11):
+//               workedwith4to10++
+//               data[key].answer = parseInt(data[key].answer)
+//               break
+//             case (x < 26):
+//               workedwith11to25++
+//               data[key].answer = parseInt(data[key].answer)
+//               break
+//             default:
+//               workedwithmorethan25++
+//               break
+//           }
 
-        }
+//         }
+
+
+
+
         if (data[key].type != 'HIDDEN') { // || (data[key].type == 'HIDDEN' && data[key].id === 259)) {
           switch (data[key].type) {
             case 'TEXTBOX':
@@ -538,9 +360,7 @@ async function processIt(responses) {
                 o[found3.name] = data[key].answer
               }
               else {
-                //console.log(columns)
-                console.log('found is null')
-                //console.log(data[key].id)
+                console.log('found is null',data[key].answer)
               }
               break
             case 'parent':
@@ -603,12 +423,12 @@ async function processIt(responses) {
     });
     //done processing all keys in the data
 
-    if (daysArray[o['dateofvisit']] == undefined) {
-      daysArray[o['dateofvisit']] = 1
-    }
-    else {
-      daysArray[o['dateofvisit']] = daysArray[o['dateofvisit']] + 1
-    }
+    // if (daysArray[o['dateofvisit']] == undefined) {
+    //   daysArray[o['dateofvisit']] = 1
+    // }
+    // else {
+    //   daysArray[o['dateofvisit']] = daysArray[o['dateofvisit']] + 1
+    // }
 
     o['authorized'] = doAuthorized(o)
     // if (o['currentlysick'] == 'Yes' ||

@@ -1,14 +1,11 @@
 {
-  "dategenerated": "2020-11-19T20:11:12.366Z",
-  "totalcount": 2853,
-  "numnotcomplete": 37,
-  "numcomplete": 2816,
+  "dategenerated": "2020-11-23T17:08:45.882Z",
+  "workassignmentsstart": "09/01/2020",
+  "workassignmentsend": "09/23/2022",
+  "totalcount": 2929,
+  "numnotcomplete": 40,
+  "numcomplete": 2889,
   "numcompletenull": 0,
-  "totalworkedwith0": 1,
-  "totalworkedwith1to3": 1651,
-  "totalworkedwith4to10": 37,
-  "totalworkedwith11to25": 0,
-  "totalworkedwithmorethan25": 7,
   "countryofvisitArray": [
     "United States"
   ],
@@ -17,133 +14,436 @@
     "Claims",
     "Premium Audit"
   ],
-  "days": {
-    "09/15/2020": 33,
-    "09/10/2020": 18,
-    "09/21/2020": 30,
-    "10/05/2020": 49,
-    "10/19/2020": 20,
-    "09/23/2020": 62,
-    "10/28/2020": 63,
-    "09/14/2020": 35,
-    "09/11/2020": 19,
-    "09/16/2020": 28,
-    "09/17/2020": 29,
-    "09/22/2020": 59,
-    "09/29/2020": 94,
-    "09/30/2020": 72,
-    "09/28/2020": 56,
-    "09/24/2020": 49,
-    "09/18/2020": 20,
-    "09/25/2020": 36,
-    "04/19/2020": 1,
-    "09/19/2020": 7,
-    "undefined": 2,
-    "10/02/2020": 52,
-    "10/01/2020": 83,
-    "09/30/2022": 2,
-    "10/07/2020": 75,
-    "10/12/2020": 25,
-    "10/23/2020": 33,
-    "10/08/2020": 73,
-    "10/13/2020": 46,
-    "11/02/2020": 42,
-    "10/06/2020": 66,
-    "10/14/2020": 71,
-    "09/23/2022": 1,
-    "10/09/2020": 42,
-    "09/01/2020": 1,
-    "10/01/2021": 1,
-    "10/16/2020": 58,
-    "10/15/2020": 61,
-    "10/20/2020": 56,
-    "10/21/2020": 53,
-    "10/03/2020": 2,
-    "10/04/2020": 2,
-    "10/22/2020": 48,
-    "10/11/2020": 1,
-    "11/05/2020": 76,
-    "10/26/2020": 41,
-    "10/18/2020": 1,
-    "11/19/2020": 63,
-    "11/18/2020": 85,
-    "10/27/2020": 66,
-    "10/29/2020": 66,
-    "11/06/2020": 39,
-    "11/17/2020": 109,
-    "11/10/2020": 69,
-    "11/11/2020": 76,
-    "10/25/2020": 1,
-    "10/24/2020": 1,
-    "10/30/2020": 29,
-    "11/03/2020": 52,
-    "11/04/2020": 77,
-    "11/09/2020": 66,
-    "11/12/2020": 81,
-    "11/16/2020": 47,
-    "10/31/2020": 1,
-    "11/01/2020": 2,
-    "11/30/2020": 2,
-    "11/13/2020": 46,
-    "11/07/2020": 3,
-    "11/08/2020": 1,
-    "11/15/2020": 2,
-    "11/11/2021": 1,
-    "11/14/2020": 1,
-    "11/21/2020": 1,
-    "11/27/2020": 1,
-    "11/24/2020": 17,
-    "11/20/2020": 19,
-    "11/23/2020": 6,
-    "12/02/2020": 9,
-    "12/03/2020": 7,
-    "12/04/2020": 4,
-    "12/09/2020": 4,
-    "12/01/2020": 2,
-    "12/20/2020": 1,
-    "12/08/2020": 1,
-    "11/22/2020": 1
+  "measures": {
+    "totalsocialdistancing": 2701,
+    "totalfacecoverings": 2779,
+    "totaltracingplan": 1097,
+    "totalhealthsafetyplan": 1813,
+    "totalemployeehealth": 1496,
+    "totalvisitorhealth": 1258,
+    "totalothermeasures": 355,
+    "percentsocialdistancing": "93.49",
+    "percentfacecoverings": "96.19",
+    "percenttracingplan": "37.97",
+    "percenthealthsafetyplan": "62.76",
+    "percentemployeehealth": "51.78",
+    "percentvisitorhealth": "43.54",
+    "percentothermeasures": "12.29"
   },
-  "totalcurrentlysick": 0,
-  "totalhadcontact": 2,
-  "totalsymptoms": 3,
-  "totalsymptomsnh": 0,
-  "totalcovidcontactnh": 0,
-  "totalnonessentialtravelnh": 0,
-  "totalpreventmask": 0,
-  "totalsocialdistancing": 2634,
-  "totalfacecoverings": 2713,
-  "totaltracingplan": 1063,
-  "totalhealthsafetyplan": 1760,
-  "totalemployeehealth": 1457,
-  "totalvisitorhealth": 1229,
-  "totalothermeasures": 352,
-  "percentsocialdistancing": "94",
-  "percentfacecoverings": "96",
-  "percenttracingplan": "38",
-  "percenthealthsafetyplan": "63",
-  "percentemployeehealth": "52",
-  "percentvisitorhealth": "44",
-  "percentothermeasures": "13",
-  "totalcomfortable": 2809,
-  "totalnotcomfortable": 7,
-  "percentcomfortable": "100",
-  "percentnotcomfortable": "0",
-  "totalassignments": 2297,
-  "totalauthorized": 2292,
-  "totalnotauthorized": 5,
-  "percentauthorized": "99.78",
-  "percentnotauthorized": "0.22",
-  "totalmorephysicaldistance": 18,
-  "totalaskforchange": 0,
-  "totaladdedppe": 2,
-  "totaldidnotgointoarea": 1,
-  "totalrescheduledvisit": 0,
-  "totalothercorrections": 6,
-  "percentmorephysicaldistance": "1",
-  "percentaskforchange": "0",
-  "percentaddedppe": "0",
-  "percentdidnotgointoarea": "0",
-  "percentrescheduledvisit": "0",
-  "percentothercorrections": "0"
+  "comfortlevel": {
+    "totalcomfortable": 2882,
+    "totalnotcomfortable": 7,
+    "percentcomfortable": "99.76",
+    "percentnotcomfortable": "0.24"
+  },
+  "authorizations": {
+    "totalassignments": 2363,
+    "totalauthorized": 2358,
+    "totalnotauthorized": 5,
+    "percentauthorized": "99.79",
+    "percentnotauthorized": "0.21"
+  },
+  "healthquestions": {
+    "totalcurrentlysick": 0,
+    "totalhadcontact": 2,
+    "totalsymptoms": 3,
+    "totalpreventmask": 0
+  },
+  "healthquestionsNH": {
+    "totalsymptomsnh": 0,
+    "totalcovidcontactnh": 0,
+    "totalnonessentialtravelnh": 0
+  },
+  "corrections": {
+    "totalmorephysicaldistance": 18,
+    "totalaskforchange": 0,
+    "totaladdedppe": 2,
+    "totaldidnotgointoarea": 1,
+    "totalrescheduledvisit": 0,
+    "totalothercorrections": 6,
+    "percentmorephysicaldistance": "0.62",
+    "percentaskforchange": "0.00",
+    "percentaddedppe": "0.07",
+    "percentdidnotgointoarea": "0.03",
+    "percentrescheduledvisit": "0.00",
+    "percentothercorrections": "0.21"
+  },
+  "workassignments": [
+    {
+      "label": "09/01/2020",
+      "value": 1
+    },
+    {
+      "label": "09/10/2020",
+      "value": 18
+    },
+    {
+      "label": "09/11/2020",
+      "value": 19
+    },
+    {
+      "label": "09/14/2020",
+      "value": 35
+    },
+    {
+      "label": "09/15/2020",
+      "value": 33
+    },
+    {
+      "label": "09/16/2020",
+      "value": 26
+    },
+    {
+      "label": "09/17/2020",
+      "value": 29
+    },
+    {
+      "label": "09/18/2020",
+      "value": 20
+    },
+    {
+      "label": "09/19/2020",
+      "value": 6
+    },
+    {
+      "label": "09/21/2020",
+      "value": 30
+    },
+    {
+      "label": "09/22/2020",
+      "value": 59
+    },
+    {
+      "label": "09/23/2020",
+      "value": 62
+    },
+    {
+      "label": "09/24/2020",
+      "value": 49
+    },
+    {
+      "label": "09/25/2020",
+      "value": 35
+    },
+    {
+      "label": "09/28/2020",
+      "value": 56
+    },
+    {
+      "label": "09/29/2020",
+      "value": 94
+    },
+    {
+      "label": "09/30/2020",
+      "value": 71
+    },
+    {
+      "label": "10/01/2020",
+      "value": 83
+    },
+    {
+      "label": "10/02/2020",
+      "value": 52
+    },
+    {
+      "label": "10/03/2020",
+      "value": 2
+    },
+    {
+      "label": "10/04/2020",
+      "value": 2
+    },
+    {
+      "label": "10/05/2020",
+      "value": 49
+    },
+    {
+      "label": "10/06/2020",
+      "value": 66
+    },
+    {
+      "label": "10/07/2020",
+      "value": 75
+    },
+    {
+      "label": "10/08/2020",
+      "value": 71
+    },
+    {
+      "label": "10/09/2020",
+      "value": 40
+    },
+    {
+      "label": "10/11/2020",
+      "value": 1
+    },
+    {
+      "label": "10/12/2020",
+      "value": 24
+    },
+    {
+      "label": "10/13/2020",
+      "value": 46
+    },
+    {
+      "label": "10/14/2020",
+      "value": 71
+    },
+    {
+      "label": "10/15/2020",
+      "value": 60
+    },
+    {
+      "label": "10/16/2020",
+      "value": 56
+    },
+    {
+      "label": "10/18/2020",
+      "value": 1
+    },
+    {
+      "label": "10/19/2020",
+      "value": 20
+    },
+    {
+      "label": "10/20/2020",
+      "value": 56
+    },
+    {
+      "label": "10/21/2020",
+      "value": 52
+    },
+    {
+      "label": "10/22/2020",
+      "value": 48
+    },
+    {
+      "label": "10/23/2020",
+      "value": 33
+    },
+    {
+      "label": "10/24/2020",
+      "value": 1
+    },
+    {
+      "label": "10/25/2020",
+      "value": 1
+    },
+    {
+      "label": "10/26/2020",
+      "value": 40
+    },
+    {
+      "label": "10/27/2020",
+      "value": 66
+    },
+    {
+      "label": "10/28/2020",
+      "value": 62
+    },
+    {
+      "label": "10/29/2020",
+      "value": 66
+    },
+    {
+      "label": "10/30/2020",
+      "value": 28
+    },
+    {
+      "label": "10/31/2020",
+      "value": 1
+    },
+    {
+      "label": "11/01/2020",
+      "value": 2
+    },
+    {
+      "label": "11/02/2020",
+      "value": 41
+    },
+    {
+      "label": "11/03/2020",
+      "value": 52
+    },
+    {
+      "label": "11/04/2020",
+      "value": 76
+    },
+    {
+      "label": "11/05/2020",
+      "value": 75
+    },
+    {
+      "label": "11/06/2020",
+      "value": 37
+    },
+    {
+      "label": "11/07/2020",
+      "value": 3
+    },
+    {
+      "label": "11/08/2020",
+      "value": 1
+    },
+    {
+      "label": "11/09/2020",
+      "value": 65
+    },
+    {
+      "label": "11/10/2020",
+      "value": 69
+    },
+    {
+      "label": "11/11/2020",
+      "value": 76
+    },
+    {
+      "label": "11/12/2020",
+      "value": 79
+    },
+    {
+      "label": "11/13/2020",
+      "value": 45
+    },
+    {
+      "label": "11/14/2020",
+      "value": 1
+    },
+    {
+      "label": "11/15/2020",
+      "value": 2
+    },
+    {
+      "label": "11/16/2020",
+      "value": 47
+    },
+    {
+      "label": "11/17/2020",
+      "value": 109
+    },
+    {
+      "label": "11/18/2020",
+      "value": 79
+    },
+    {
+      "label": "11/19/2020",
+      "value": 66
+    },
+    {
+      "label": "11/20/2020",
+      "value": 33
+    },
+    {
+      "label": "11/21/2020",
+      "value": 2
+    },
+    {
+      "label": "11/22/2020",
+      "value": 3
+    },
+    {
+      "label": "11/23/2020",
+      "value": 31
+    },
+    {
+      "label": "11/24/2020",
+      "value": 27
+    },
+    {
+      "label": "11/25/2020",
+      "value": 2
+    },
+    {
+      "label": "11/27/2020",
+      "value": 1
+    },
+    {
+      "label": "11/30/2020",
+      "value": 6
+    },
+    {
+      "label": "12/01/2020",
+      "value": 5
+    },
+    {
+      "label": "12/02/2020",
+      "value": 10
+    },
+    {
+      "label": "12/03/2020",
+      "value": 8
+    },
+    {
+      "label": "12/04/2020",
+      "value": 4
+    },
+    {
+      "label": "12/08/2020",
+      "value": 4
+    },
+    {
+      "label": "12/09/2020",
+      "value": 4
+    },
+    {
+      "label": "12/10/2020",
+      "value": 2
+    },
+    {
+      "label": "12/15/2020",
+      "value": 2
+    },
+    {
+      "label": "12/16/2020",
+      "value": 1
+    },
+    {
+      "label": "10/01/2021",
+      "value": 1
+    },
+    {
+      "label": "11/11/2021",
+      "value": 1
+    },
+    {
+      "label": "09/23/2022",
+      "value": 1
+    }
+  ],
+  "workwithcounts": {
+    "totalworkwith0": 2,
+    "totalworkwith1to3": 2838,
+    "totalworkwith4to10": 42,
+    "totalworkwith11to25": 0,
+    "totalworkwithmorethan25": 7,
+    "percentworkwith0": "0.07",
+    "percentworkwith1to3": "98.23",
+    "percentworkwith4to10": "1.45",
+    "percentworkwith11to25": "0.00",
+    "percentworkwithmorethan25": "0.24"
+  },
+  "compliance": {
+    "totalcompliant": 2382,
+    "totalnoncompliant": 507
+  },
+  "countries": [
+    {
+      "id": 1,
+      "name": "United States"
+    }
+  ],
+  "jobroles": [
+    {
+      "id": 1,
+      "name": "Risk Control"
+    },
+    {
+      "id": 2,
+      "name": "Claims"
+    },
+    {
+      "id": 3,
+      "name": "Premium Audit"
+    }
+  ]
 }
