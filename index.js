@@ -125,32 +125,38 @@ async function Go() {
 
     numCompleteArray = numCompleteArray.filter(response => response['status'] === "Complete")
 
-    var oMeasures = calcmodule.MeasuresCalculations(numCompleteArray)
-    var oComfortLevel = calcmodule.ComfortLevelCalculations(numCompleteArray)
-    var oAuthorizations = calcmodule.AuthorizationsCalculations(numCompleteArray)
-    var oHealthQuestions = calcmodule.HealthQuestionsCalculations(numCompleteArray)
-    var oHealthQuestionsNH = calcmodule.HealthQuestionsNHCalculations(numCompleteArray)
-    var oCorrections = calcmodule.CorrectionsCalculations(numCompleteArray)
-    var oWorkAssignments = calcmodule.WorkAssignmentsCalculations(numCompleteArray)
-    var oWorkWithCounts = calcmodule.WorkWithCountsCalculations(numCompleteArray)
-    var oCompliance = calcmodule.ComplianceCalculations(numCompleteArray)
-    var oAddressNonCompliance = calcmodule.AddressNonComplianceCalculations(numCompleteArray)
     var oCountries = calcmodule.CountriesCalculations(numCompleteArray)
     var oJobRoles = calcmodule.JobRolesCalculations(numCompleteArray)
 
+    var oComfortLevel = calcmodule.ComfortLevelCalculations(numCompleteArray)
+    var oMeasures = calcmodule.MeasuresCalculations(numCompleteArray)
+
+    var oAuthorizations = calcmodule.AuthorizationsCalculations(numCompleteArray)
+    var oWorkAssignments = calcmodule.WorkAssignmentsCalculations(numCompleteArray)
+    var oHealthQuestions = calcmodule.HealthQuestionsCalculations(numCompleteArray)
+    var oHealthQuestionsNH = calcmodule.HealthQuestionsNHCalculations(numCompleteArray)
+
+    var oWorkWithCounts = calcmodule.WorkWithCountsCalculations(numCompleteArray)
+    var oCompliance = calcmodule.ComplianceCalculations(numCompleteArray)
+    var oAddressNonCompliance = calcmodule.AddressNonComplianceCalculations(numCompleteArray)
+    var oCorrections = calcmodule.CorrectionsCalculations(numCompleteArray)
+
     var oCalculations = {
-      measures: oMeasures,
+      countries: oCountries,
+      jobroles: oJobRoles,
+
       comfortlevel: oComfortLevel,
+      measures: oMeasures,
+
       authorizations: oAuthorizations,
+      workassignments: oWorkAssignments,
       healthquestions: oHealthQuestions,
       healthquestionsNH: oHealthQuestionsNH,
-      corrections: oCorrections,
-      workassignments: oWorkAssignments,
+
       workwithcounts: oWorkWithCounts,
       compliance: oCompliance,
       addressnoncompliance: oAddressNonCompliance,
-      countries: oCountries,
-      jobroles: oJobRoles,
+      corrections: oCorrections,
     }
 
     var oBasic = {
@@ -246,104 +252,6 @@ async function processIt(responses) {
         if (data[key].id === 319) { //numworkwith
           data[key].answer = parseInt(data[key].answer)
         }
-
-        // if (data[key].id === 285) { //countryofvisit
-        //   if (data[key].answer != null) {
-        //     if (!countryofvisitArray.includes(data[key].answer)) {
-        //       countryofvisitArray.push(data[key].answer)
-        //     }
-        //   }
-        // }
-        // if (data[key].id === 287) { //jobrole
-        //   if (data[key].answer != null) {
-        //     if (!jobroleArray.includes(data[key].answer)) {
-        //       jobroleArray.push(data[key].answer)
-        //     }
-        //   }
-        // }
-
-        // if (data[key].id === 7) { //currentlysick
-        //   if (data[key].answer == 'Yes') {
-        //     totalcurrentlysick++
-        //   }
-        // }
-        // if (data[key].id === 8) { //hadcontact
-        //   if (data[key].answer == 'Yes') {
-        //     totalhadcontact++
-        //   }
-        // }
-        // if (data[key].id === 10) { //symptoms
-        //   if (data[key].answer == 'Yes') {
-        //     totalsymptoms++
-        //   }
-        // }
-
-
-        // if (data[key].id === 327) { //symptomsnh
-        //   if (data[key].answer == 'Yes') {
-        //     totalsymptomsnh++
-        //   }
-        // }
-        // if (data[key].id === 328) { //symptoms
-        //   if (data[key].answer == 'Yes') {
-        //     totalcovidcontactnh++
-        //   }
-        // }
-        // if (data[key].id === 330) { //nonessentialtravelnh
-        //   if (data[key].answer == 'Yes') {
-        //     totalnonessentialtravelnh++
-        //   }
-        // }
-        // if (data[key].id === 318) { //preventmask
-        //   if (data[key].answer == 'Yes') {
-        //     totalpreventmask++
-        //   }
-        // }
-
-
-
-        //if aloneorpeople == "I worked alone" then numpeople = 0
-
-//         if (data[key].id === 319) { //numpeople
-//           var x = data[key].answer
-//           switch(true){
-
-//  //mjg
-//             case (x == ''):
-
-//               data[key].answer = parseInt(data[key].answer)
-//               break
-
-//               case (x == 0):
-//                 workedwith0++
-//                 data[key].answer = parseInt(data[key].answer)
-//                 break
-
-//             // case (x == 1):
-//             //   workedwith0++
-//             //   data[key].answer = parseInt(data[key].answer)
-//             //   break
-//             case (x < 4):
-//               workedwith1to3++
-//               data[key].answer = parseInt(data[key].answer)
-//               break
-//             case (x < 11):
-//               workedwith4to10++
-//               data[key].answer = parseInt(data[key].answer)
-//               break
-//             case (x < 26):
-//               workedwith11to25++
-//               data[key].answer = parseInt(data[key].answer)
-//               break
-//             default:
-//               workedwithmorethan25++
-//               break
-//           }
-
-//         }
-
-
-
 
         if (data[key].type != 'HIDDEN') {
           switch (data[key].type) {

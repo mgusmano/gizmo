@@ -1,64 +1,61 @@
 {
-  "dategenerated": "2020-11-23T20:38:17.480Z",
+  "dategenerated": "2020-11-24T07:07:54.592Z",
   "workassignmentsstart": "09/01/2020",
   "workassignmentsend": "09/23/2022",
-  "totalcount": 2949,
+  "totalcount": 2988,
   "numnotcomplete": 40,
-  "numcomplete": 2910,
+  "numcomplete": 2948,
   "numcompletenull": 0,
-  "measures": {
-    "totalsocialdistancing": 2722,
-    "totalfacecoverings": 2800,
-    "totaltracingplan": 1111,
-    "totalhealthsafetyplan": 1827,
-    "totalemployeehealth": 1508,
-    "totalvisitorhealth": 1269,
-    "totalothermeasures": 357,
-    "percentsocialdistancing": "93.54",
-    "percentfacecoverings": "96.22",
-    "percenttracingplan": "38.18",
-    "percenthealthsafetyplan": "62.78",
-    "percentemployeehealth": "51.82",
-    "percentvisitorhealth": "43.61",
-    "percentothermeasures": "12.27"
-  },
+  "countries": [
+    {
+      "id": 1,
+      "name": "United States"
+    }
+  ],
+  "jobroles": [
+    {
+      "id": 1,
+      "name": "Risk Control"
+    },
+    {
+      "id": 2,
+      "name": "Claims"
+    },
+    {
+      "id": 3,
+      "name": "Premium Audit"
+    }
+  ],
   "comfortlevel": {
-    "totalcomfortable": 2903,
+    "totalcomfortable": 2941,
     "totalnotcomfortable": 7,
     "percentcomfortable": "99.76",
     "percentnotcomfortable": "0.24"
   },
+  "measures": {
+    "totalsocialdistancing": 2760,
+    "totalfacecoverings": 2838,
+    "totaltracingplan": 1144,
+    "totalhealthsafetyplan": 1863,
+    "totalemployeehealth": 1540,
+    "totalvisitorhealth": 1300,
+    "totalvendorprohibit": 35,
+    "totalothermeasures": 360,
+    "percentsocialdistancing": "93.62",
+    "percentfacecoverings": "96.27",
+    "percenttracingplan": "38.81",
+    "percenthealthsafetyplan": "63.20",
+    "percentemployeehealth": "52.24",
+    "percentvisitorhealth": "44.10",
+    "percentvendorprohibit": "1.19",
+    "percentothermeasures": "12.21"
+  },
   "authorizations": {
-    "totalassignments": 2365,
-    "totalauthorized": 2360,
+    "totalassignments": 2377,
+    "totalauthorized": 2372,
     "totalnotauthorized": 5,
     "percentauthorized": "99.79",
     "percentnotauthorized": "0.21"
-  },
-  "healthquestions": {
-    "totalcurrentlysick": 0,
-    "totalhadcontact": 2,
-    "totalsymptoms": 3,
-    "totalpreventmask": 0
-  },
-  "healthquestionsNH": {
-    "totalsymptomsnh": 0,
-    "totalcovidcontactnh": 0,
-    "totalnonessentialtravelnh": 0
-  },
-  "corrections": {
-    "totalmorephysicaldistance": 18,
-    "totalaskforchange": 0,
-    "totaladdedppe": 2,
-    "totaldidnotgointoarea": 1,
-    "totalrescheduledvisit": 0,
-    "totalothercorrections": 6,
-    "percentmorephysicaldistance": "0.62",
-    "percentaskforchange": "0.00",
-    "percentaddedppe": "0.07",
-    "percentdidnotgointoarea": "0.03",
-    "percentrescheduledvisit": "0.00",
-    "percentothercorrections": "0.21"
   },
   "workassignments": [
     {
@@ -335,19 +332,19 @@
     },
     {
       "label": "11/23/2020",
-      "value": 33
+      "value": 42
     },
     {
       "label": "11/24/2020",
-      "value": 39
+      "value": 55
     },
     {
       "label": "11/25/2020",
-      "value": 2
+      "value": 9
     },
     {
       "label": "11/27/2020",
-      "value": 1
+      "value": 4
     },
     {
       "label": "11/30/2020",
@@ -355,11 +352,11 @@
     },
     {
       "label": "12/01/2020",
-      "value": 6
+      "value": 8
     },
     {
       "label": "12/02/2020",
-      "value": 12
+      "value": 13
     },
     {
       "label": "12/03/2020",
@@ -402,46 +399,53 @@
       "value": 1
     }
   ],
+  "healthquestions": {
+    "totalcurrentlysick": 0,
+    "totalhadcontact": 2,
+    "totalsymptoms": 3,
+    "totalpreventmask": 0
+  },
+  "healthquestionsNH": {
+    "totalsymptomsnh": 0,
+    "totalcovidcontactnh": 0,
+    "totalnonessentialtravelnh": 0
+  },
   "workwithcounts": {
-    "totalworkwith0": 482,
-    "totalworkwith1to3": 1716,
-    "totalworkwith4to10": 42,
+    "totalworkwith0": 486,
+    "totalworkwith1to3": 1719,
+    "totalworkwith4to10": 43,
     "totalworkwith11to25": 0,
-    "totalworkwithmorethan25": 7,
-    "percentworkwith0": "16.56",
-    "percentworkwith1to3": "58.97",
-    "percentworkwith4to10": "1.44",
+    "totalworkwithmorethan25": 8,
+    "percentworkwith0": "21.54",
+    "percentworkwith1to3": "76.20",
+    "percentworkwith4to10": "1.91",
     "percentworkwith11to25": "0.00",
-    "percentworkwithmorethan25": "0.24"
+    "percentworkwithmorethan25": "0.35"
   },
   "compliance": {
-    "totalcompliant": 2403,
-    "totalnoncompliant": 507
+    "totalcompliant": 2223,
+    "totalnoncompliant": 33,
+    "percentcompliant": "98.54",
+    "percentnoncompliant": "1.46"
   },
   "addressnoncompliance": {
     "totaladdressnoncompliance": 24,
     "totalnotaddressnoncompliance": 4,
-    "percentaddressnoncompliance": "0.82",
+    "percentaddressnoncompliance": "0.81",
     "percentnotaddressnoncompliance": "0.14"
   },
-  "countries": [
-    {
-      "id": 1,
-      "name": "United States"
-    }
-  ],
-  "jobroles": [
-    {
-      "id": 1,
-      "name": "Risk Control"
-    },
-    {
-      "id": 2,
-      "name": "Claims"
-    },
-    {
-      "id": 3,
-      "name": "Premium Audit"
-    }
-  ]
+  "corrections": {
+    "totalmorephysicaldistance": 18,
+    "totalaskforchange": 0,
+    "totaladdedppe": 2,
+    "totaldidnotgointoarea": 1,
+    "totalrescheduledvisit": 0,
+    "totalothercorrections": 6,
+    "percentmorephysicaldistance": "75.00",
+    "percentaskforchange": "0.00",
+    "percentaddedppe": "8.33",
+    "percentdidnotgointoarea": "4.17",
+    "percentrescheduledvisit": "0.00",
+    "percentothercorrections": "25.00"
+  }
 }
