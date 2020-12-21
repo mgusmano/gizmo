@@ -42,6 +42,7 @@
     var percentnotcomfortable = ((totalnotcomfortable/num_responses)*100).toFixed(precision)
 
     var o = {
+      denominator: num_responses,
       totalcomfortable,
       totalnotcomfortable,
       percentcomfortable,
@@ -73,6 +74,7 @@
       var percentothermeasures = ((totalothermeasures/num_responses)*100).toFixed(precision)
 
       var o = {
+        denominator: num_responses,
         totalsocialdistancing,
         totalfacecoverings,
         totaltracingplan,
@@ -107,6 +109,7 @@
     var percentnotauthorized = ((totalnotauthorized / totalassignments)*100).toFixed(precision)
 
     var o = {
+      denominator: totalassignments,
       totalassignments,
       totalauthorized,
       totalnotauthorized,
@@ -133,9 +136,7 @@
         firstArray.push(a)
       }
       const sortedArray = firstArray.sort((a, b) => new Date(a.label) - new Date(b.label))
-
       return sortedArray
-      //return daysArray
   }
 
   exports.HealthQuestionsAllCalculations = function(allArray) {
@@ -195,8 +196,9 @@
   exports.WorkWithCountsCalculations = function(allArray) {
     var totalworkwithlength = allArray.filter(response => response['aloneorpeople'] !== null).length
 
-
     var oResult = {
+      totalworkwithlength: totalworkwithlength,
+      denominator: totalworkwithlength,
       totalworkwith0: 0,
       totalworkwith1to3: 0,
       totalworkwith4to10: 0,
@@ -249,6 +251,7 @@
     var percentnoncompliant = ((totalnoncompliant/complianceDenominator)*100).toFixed(precision)
 
     var complianceArray = {
+      denominator: complianceDenominator,
       totalcompliant: totalcompliant,
       totalnoncompliant: totalnoncompliant,
       percentcompliant: percentcompliant,
@@ -268,6 +271,7 @@
     var percentnotaddressnoncompliance = ((totalnotaddressnoncompliance/num_responses)*100).toFixed(precision)
 
     var o = {
+      denominator: num_responses,
       totaladdressnoncompliance,
       totalnotaddressnoncompliance,
       percentaddressnoncompliance,
@@ -296,6 +300,7 @@
     var percentothercorrections = ((totalothercorrections/correctionsDenominator)*100).toFixed(precision)
 
     var o = {
+      denominator: correctionsDenominator,
       totalmorephysicaldistance,
       totalaskforchange,
       totaladdedppe,
@@ -315,57 +320,83 @@
 
   //consultant compliance
   exports.DayOfHealthAssessmentCalculations = function(allArray) {
-    var precision = 2
+    var visitinfutureArray = allArray.filter(response => new Date(response['dateofvisit']) > new Date())
+    var visitinfuture = visitinfutureArray.length
 
-
-
-
+    var visitArray = allArray.filter(response => new Date(response['dateofvisit']) <= new Date())
+    var assessmentCompleteArray = visitArray.filter(response => response['currentlysick'] !== null)
+    var completed = assessmentCompleteArray.length
+    //console.log(completed)
+    var assessmentNotCompleteArray = visitArray.filter(response => response['currentlysick'] === null)
+    var notcompleted = assessmentNotCompleteArray.length
+    //console.log(notcompleted)
+    return {completed:completed,notcompleted:notcompleted,visitinfuture:visitinfuture}
   }
 
   exports.FiveDayPostVisitCalculations = function(allArray) {
-    var precision = 2
+
+    var authArray = allArray.filter(response => response['authcode'] !== null)
+    var denominator = authArray.length
+    //console.log('denominator',denominator)
+    var notcompletedArray = authArray.filter(response => response['aloneorpeople'] === null)
+
+    var totalnotcompletedIn5 = 0
+    var totalnotcompletedAfter5 = 0
+    notcompletedArray.forEach(o => {
+      var today = new Date()
+      var visit = new Date(o['dateofvisit'])
+      var difference = today.getTime() - visit.getTime();
+      var days = Math.ceil(difference / (1000 * 3600 * 24));
+      if (days > 5) {
+        totalnotcompletedAfter5++
+      }
+      else {
+        totalnotcompletedIn5++
+      }
+    })
+
+    //var notcompletedwithin5days = notcompletedArray.filter(response => new Date(response['dateofvisit']) <= new Date())
+    var totalNotCompleted = notcompletedArray.length
+    //console.log('not completed',totalNotCompleted)
 
 
+    var completedArray = authArray.filter(response => response['aloneorpeople'] !== null)
+    var totalcompletedIn5 = 0
+    var totalcompletedAfter5 = 0
+    completedArray.forEach(o => {
+      var submitted = new Date(o['datesubmitted'])
+      var visit = new Date(o['dateofvisit'])
+      var difference = submitted.getTime() - visit.getTime();
+      var days = Math.ceil(difference / (1000 * 3600 * 24));
+      if (days > 5) {
+        totalcompletedAfter5++
+      }
+      else {
+        totalcompletedIn5++
+      }
+    })
+    //console.log('in 5',totalIn5)
+    //console.log('after 5',totalAfter5)
+    //var total = totalNotCompleted + totalIn5 + totalAfter5
+    //console.log('total',total)
+    var percentNotCompleted = ((totalNotCompleted/denominator)*100).toFixed(2)
+    //var percentIn5 = ((totalIn5/denominator)*100).toFixed(2)
+    //var percentAfter5 = ((totalAfter5/denominator)*100).toFixed(2)
+    var o = {
+      totalcompletedAfter5:totalcompletedAfter5,
+      totalcompletedIn5:totalcompletedIn5,
+      totalnotcompletedAfter5:totalnotcompletedAfter5,
+      totalnotcompletedIn5:totalnotcompletedIn5,
 
-    // var complianceDenominator = allArray.filter(response => response['safetymet'] !== null).length
-
-    // allArray.forEach(survey => {
-
-
-
-    //   // var authcode = survey.authcode
-    //   // var dateofvisit = survey.dateofvisit
-    //   // var aloneorpeople = survey.aloneorpeople
-    //   // var today = new Date()
-    //   // var todayString =  + (today.getMonth()+1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear()
-
-    //   // var date1 = new Date(todayString);
-    //   // var date2 = new Date(dateofvisit);
-    //   // var difference = date1.getTime() - date2.getTime();
-    //   // var days = Math.ceil(difference / (1000 * 3600 * 24));
-
-    //   // var compliant = 'yes'
-    //   // if (days > 5) {
-    //   //   if (authcode !== undefined) {
-    //   //     if (aloneorpeople == null) { //they did not get to this section
-    //   //       compliant = 'no'
-    //   //     }
-    //   //   }
-    //   // }
-    //   // if (compliant === 'yes') {
-    //   //   complianceArray.totalcompliant++
-    //   //   //totalcompliant++
-    //   // }
-    //   // else {
-    //   //   //totalnoncompliant++
-    //   //   complianceArray.totalnoncompliant++
-    //   // }
-
-    // })
-    // return complianceArray
-
+      //totalNotCompleted: totalNotCompleted,
+      //totalIn5: totalIn5,
+      //totalAfter5: totalAfter5,
+      //percentNotCompleted: percentNotCompleted,
+      //percentIn5: percentIn5,
+      //percentAfter5: percentAfter5
+    }
+    return o
   }
-
 
 
 

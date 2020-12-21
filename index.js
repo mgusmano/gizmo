@@ -109,7 +109,7 @@ async function Go() {
     console.log('rootData.total_pages',rootData.total_pages)
     console.log('rootData.results_per_page',rootData.results_per_page)
 
-    //total_pages = 1 //for testing
+    //total_pages = 3 //for testing
 
     while (page <= total_pages) {
       console.log('page',page,performance.now())
