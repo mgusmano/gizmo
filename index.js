@@ -29,6 +29,7 @@ var columns = [
   {id: 186, name :'contactname'},
   {id: 331, name :'contacttitle'},
   {id: 332, name :'contactphonenumber'},
+  {id: 333, name :'contactemail'},
 
 //previsit
   {id: 314, name :'measuresinplace'},
@@ -36,13 +37,18 @@ var columns = [
 
 //health survey
 //questions
-  {id:   7, name :'currentlysick'},
-  {id:   8, name :'hadcontact'},
   {id:  10, name :'symptoms'},
+  {id:   8, name :'hadcontact'},
+  {id:   7, name :'currentlysick'},
+
+  {id: 338, name :'awaitingresults'},
+  {id: 339, name :'traveledtowidespreadlocation'},
+  //{id: 318, name :'preventmask'},
+
   {id: 327, name :'symptomsnh'},
   {id: 328, name :'covidcontactnh'},
   {id: 330, name :'nonessentialtravelnh'},
-  {id: 318, name :'preventmask'},
+
   {id: 259, name :'authcode'},
 
 //post visit survey
@@ -52,6 +58,9 @@ var columns = [
   {id: 244, name :'safetymet'},
   {id: 321, name :'addressnoncompliance'},
   {id: 322, name :'corrections'},
+  {id: 335, name :'abletocompletevisitasscheduled'},
+  {id: 336, name :'whatpreventedyoufromcompleting'},
+  {id: 337, name :'workwithweoplewithin62'},
 ]
 
 var corrections = [
@@ -109,7 +118,7 @@ async function Go() {
     console.log('rootData.total_pages',rootData.total_pages)
     console.log('rootData.results_per_page',rootData.results_per_page)
 
-    //total_pages = 3 //for testing
+    //total_pages = 1 //for testing
 
     while (page <= total_pages) {
       console.log('page',page,performance.now())
@@ -264,7 +273,11 @@ async function processIt(responses) {
                 o[found3.name] = data[key].answer
               }
               else {
-                console.log('found is null',data[key].answer)
+                //q 318 was removed 0n 2021-02-03
+                if (data[key].id !== 318) {
+                  console.log('found is null',data[key].answer, data[key].id)
+                }
+                //console.log(columns)
               }
               break
             case 'parent':
@@ -336,10 +349,14 @@ function doAuthorized(o) {
   if (o['currentlysick'] == 'Yes' ||
       o['hadcontact'] == 'Yes' ||
       o['symptoms'] == 'Yes' ||
+
+      o['awaitingresults'] == 'Yes' ||
+      o['traveledtowidespreadlocation'] == 'Yes' ||
+
       o['symptomsnh'] == 'Yes' ||
       o['covidcontactnh'] == 'Yes' ||
-      o['nonessentialtravelnh'] == 'Yes' ||
-      o['preventmask'] == 'Yes'
+      o['nonessentialtravelnh'] == 'Yes' //mjg ||
+      //mjg o['preventmask'] == 'Yes'
   ) {
     o['authorized'] = 'No'
   }

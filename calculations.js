@@ -149,7 +149,7 @@
     var totalsymptomsnh= allArray.filter(response => response['symptomsnh'] === "Yes").length
     var totalcovidcontactnh= allArray.filter(response => response['covidcontactnh'] === "Yes").length
     var totalnonessentialtravelnh= allArray.filter(response => response['nonessentialtravelnh'] === "Yes").length
-    var totalpreventmask= allArray.filter(response => response['preventmask'] === "Yes").length
+    //mjg var totalpreventmask= allArray.filter(response => response['preventmask'] === "Yes").length
 
     var o = {
       totalcurrentlysick,
@@ -158,22 +158,28 @@
       totalsymptomsnh,
       totalcovidcontactnh,
       totalnonessentialtravelnh,
-      totalpreventmask,
+      //totalpreventmask,
     }
     return o
   }
 
   exports.HealthQuestionsCalculations = function(allArray) {
-    var totalcurrentlysick= allArray.filter(response => response['currentlysick'] === "Yes").length
-    var totalhadcontact= allArray.filter(response => response['hadcontact'] === "Yes").length
     var totalsymptoms= allArray.filter(response => response['symptoms'] === "Yes").length
-    var totalpreventmask= allArray.filter(response => response['preventmask'] === "Yes").length
+    var totalhadcontact= allArray.filter(response => response['hadcontact'] === "Yes").length
+    var totalcurrentlysick= allArray.filter(response => response['currentlysick'] === "Yes").length
+
+    var totalawaitingresults= allArray.filter(response => response['awaitingresults'] === "Yes").length
+    var totaltraveledtowidespreadlocation= allArray.filter(response => response['traveledtowidespreadlocation'] === "Yes").length
+
+    //var totalpreventmask= allArray.filter(response => response['preventmask'] === "Yes").length
 
     var o = {
-      totalcurrentlysick,
-      totalhadcontact,
       totalsymptoms,
-      totalpreventmask,
+      totalhadcontact,
+      totalcurrentlysick,
+      totalawaitingresults,
+      totaltraveledtowidespreadlocation,
+      //totalpreventmask,
     }
     return o
   }
@@ -195,6 +201,7 @@
   //post-visit
   exports.WorkWithCountsCalculations = function(allArray) {
     var totalworkwithlength = allArray.filter(response => response['aloneorpeople'] !== null).length
+    console.log(totalworkwithlength)
 
     var oResult = {
       totalworkwithlength: totalworkwithlength,
@@ -207,26 +214,36 @@
     }
     allArray.forEach(o => {
       var x = o['numworkwith']
+      //console.log(x,o['aloneorpeople'])
       switch(true){
         case (x === null):
           if (o['aloneorpeople'] == 'I worked alone') {
+            console.log(o['id'],'0    ',x,o['aloneorpeople'])
             oResult['totalworkwith0']++
+          }
+          else {
+            console.log(o['id'],'none ',x,o['aloneorpeople'])
           }
           break
         case (x === 0):
           oResult['totalworkwith0']++
+          console.log(o['id'],'0    ',x,o['aloneorpeople'])
           break
         case (x < 4):
           oResult['totalworkwith1to3']++
+          console.log(o['id'],'1-3  ',x,o['aloneorpeople'])
           break
         case (x < 11):
           oResult['totalworkwith4to10']++
+          console.log(o['id'],'4-10 ',x,o['aloneorpeople'])
           break
         case (x < 26):
           oResult['totalworkwith11to25']++
+          console.log(o['id'],'11-25',x,o['aloneorpeople'])
           break
         default:
           oResult['totalworkwithmorethan25']++
+          console.log(o['id'],'>25',x,o['aloneorpeople'])
           break
       }
     })
@@ -237,6 +254,7 @@
     oResult['percentworkwith11to25'] = ((oResult['totalworkwith11to25'] / totalworkwithlength)*100).toFixed(2)
     oResult['percentworkwithmorethan25'] = ((oResult['totalworkwithmorethan25'] / totalworkwithlength)*100).toFixed(2)
 
+    console.log(oResult)
     return oResult
   }
 
